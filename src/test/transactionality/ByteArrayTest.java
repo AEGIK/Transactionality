@@ -17,6 +17,7 @@ public class ByteArrayTest extends TestCase
 	{
 		Root root = new Root();
 		m_bytes = new ByteArray(root, new byte[]{0, 10, 20, -5});
+        
 	}
 
 	public void testSet() throws Exception
