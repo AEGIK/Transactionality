@@ -1,4 +1,4 @@
-package transactionality;
+package com.aegik.transactionality;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -48,7 +48,8 @@ abstract class ElementType<C>
 		return m_type;
 	}
 
-	public static ElementType getReturnType(Type returnType)
+	@SuppressWarnings({"unchecked"})
+    public static <C> ElementType<C> getReturnType(Type returnType)
 	{
 		ElementType type = PRIMITIVE_TYPES.get(returnType);
 		if (type != null) return type;
@@ -115,7 +116,8 @@ abstract class ElementType<C>
 			m_initialValue = initialValue;
 		}
 
-		public C newObject(Root root, Object o)
+		@SuppressWarnings({"unchecked"})
+        public C newObject(Root root, Object o)
 		{
 			if (o != null)
 			{
@@ -130,16 +132,17 @@ abstract class ElementType<C>
 
 	}
 
-	private static class ProxyElementType extends ElementType<Transactional>
+	private static class ProxyElementType<T extends Transactional> extends ElementType<T>
 	{
 		public ProxyElementType(Type type)
 		{
 			super(type);
 		}
 
-		public Transactional newObject(Root root, Object o)
+		@SuppressWarnings({"unchecked"})
+        public T newObject(Root root, Object o)
 		{
-			Transactional t = Transactionality.createProxy(root, (Class) getType());
+			T t = Transactionality.createProxy(root, (Class<T>) getType());
 			if (o != null)
 			{
 				t.init((Map<String, Object>) o);
@@ -183,7 +186,8 @@ abstract class ElementType<C>
 			m_internalType = internalType;
 		}
 
-		public Dict<C> newObject(Root root, Object value)
+		@SuppressWarnings({"unchecked"})
+        public Dict<C> newObject(Root root, Object value)
 		{
 			Dict<C> dict = new Dict<C>(root, m_internalType);
 			if (value != null)

@@ -1,4 +1,4 @@
-package transactionality;
+package com.aegik.transactionality;
 
 import xmlwise.Plist;
 
@@ -103,7 +103,8 @@ public class Klass
 		}
 		m_actions.put("init", new KlassMethod()
 		{
-			public Object invoke(ProxyInvocationHandler proxy, Object[] args) throws Exception
+			@SuppressWarnings({"unchecked"})
+            public Object invoke(ProxyInvocationHandler proxy, Object[] args) throws Exception
 			{
 				initFromData(proxy, (Map<String, Object>) args[0]);
 				return null;
@@ -118,7 +119,8 @@ public class Klass
 		});
 		m_actions.put("put", new KlassMethod()
 		{
-			public Object invoke(ProxyInvocationHandler proxy, Object[] args)
+			@SuppressWarnings({"SuspiciousMethodCalls"})
+            public Object invoke(ProxyInvocationHandler proxy, Object[] args)
 			{
 				if (args[1] == null && !m_optional.contains(args[0]))
 				{
@@ -129,7 +131,8 @@ public class Klass
 		});
 		m_actions.put("remove", new KlassMethod()
 		{
-			public Object invoke(ProxyInvocationHandler proxy, Object[] args)
+			@SuppressWarnings({"SuspiciousMethodCalls"})
+            public Object invoke(ProxyInvocationHandler proxy, Object[] args)
 			{
 				if (!m_optional.contains(args[0]))
 				{
@@ -161,9 +164,10 @@ public class Klass
 		});
 		m_actions.put("get", new KlassMethod()
 		{
-			public Object invoke(ProxyInvocationHandler proxy, Object[] args) throws Exception
+			@SuppressWarnings({"SuspiciousMethodCalls"})
+            public Object invoke(ProxyInvocationHandler proxy, Object[] args) throws Exception
 			{
-				return proxy.get((String) args[0]);
+				return proxy.get(args[0]);
 			}
 		});
 		m_actions.put("primitive", new KlassMethod()

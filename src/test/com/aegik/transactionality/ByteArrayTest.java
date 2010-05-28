@@ -1,4 +1,4 @@
-package transactionality;
+package com.aegik.transactionality;
 /**
  * @author Christoffer Lerno 
  */
@@ -46,14 +46,8 @@ public class ByteArrayTest extends TestCase
 		assertEquals("000A14FB", m_bytes.toString());
 	}
 
-	public void testGetByPath() throws Exception
-	{
-		assertEquals((byte) 0, m_bytes.getByPath("0"));
-		assertEquals(null, m_bytes.getByPath("0.1"));
-		assertEquals(null, m_bytes.getByPath("4"));
-	}
-
-	public void testEquals() throws Exception
+	@SuppressWarnings({"EqualsBetweenInconvertibleTypes", "ObjectEqualsNull"})
+    public void testEquals() throws Exception
 	{
 		assertTrue(m_bytes.equals(m_bytes.toByteArray()));
 		assertTrue(m_bytes.equals(m_bytes));

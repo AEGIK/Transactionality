@@ -1,8 +1,6 @@
-package transactionality;
+package com.aegik.transactionality;
 
-import xmlwise.XmlElement;
 import xmlwise.XmlParseException;
-import xmlwise.Xmlwise;
 import xmlwise.Plist;
 
 import java.lang.reflect.Proxy;
@@ -18,7 +16,8 @@ public class Transactionality
 		return createProxy(root, c);
 	}
 
-	static <C extends Transactional> C createProxy(Root root, Class<C> c)
+    @SuppressWarnings({"unchecked"})
+    static <C extends Transactional> C createProxy(Root root, Class<C> c)
 	{
 		return (C) Proxy.newProxyInstance(root.getClass().getClassLoader(),
 		                                  new Class[]{c},

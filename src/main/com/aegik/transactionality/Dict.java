@@ -1,4 +1,4 @@
-package transactionality;
+package com.aegik.transactionality;
 
 import java.util.Map;
 import java.util.*;
@@ -74,10 +74,10 @@ public class Dict<C> extends TransactionalContainer<C> implements Map<String, C>
 	{
 		if (value == null)
 		{
-			return (C) remove(property);
+			return remove(property);
 		}
 		C oldValue = m_values.put(property, value);
-		addUndo(new PutUndo(this, property, oldValue));
+		addUndo(new PutUndo<C>(this, property, oldValue));
 		return oldValue;
 	}
 
@@ -109,10 +109,10 @@ public class Dict<C> extends TransactionalContainer<C> implements Map<String, C>
 	public C remove(Object key)
 	{
 		final String stringKey = String.valueOf(key);
-		final Object oldValue = m_values.remove(stringKey);
+		final C oldValue = m_values.remove(stringKey);
 		if (oldValue == null) return null;
-		addUndo(new PutUndo(this, stringKey, oldValue));
-		return (C) oldValue;
+		addUndo(new PutUndo<C>(this, stringKey, oldValue));
+		return oldValue;
 	}
 
 	/**
@@ -141,7 +141,7 @@ public class Dict<C> extends TransactionalContainer<C> implements Map<String, C>
 	public void clear()
 	{
 		if (m_values.isEmpty()) return;
-		addUndo(new ClearUndo(this));
+		addUndo(new ClearUndo<C>(this));
 		m_values = new HashMap<String, C>();
 	}
 
@@ -275,15 +275,14 @@ public class Dict<C> extends TransactionalContainer<C> implements Map<String, C>
 	 * Implements undo for clear.
 	 */
 	@SuppressWarnings({"AccessingNonPublicFieldOfAnotherObject"})
-	private static class ClearUndo implements Undo
+	private static class ClearUndo<T> implements Undo
 	{
-		private final Dict m_dict;
-		private final HashMap<String, Object> m_old;
+		private final Dict<T> m_dict;
+		private final HashMap<String, T> m_old;
 
-		private ClearUndo(Dict dict)
+		private ClearUndo(Dict<T> dict)
 		{
 			m_dict = dict;
-
 			m_old = m_dict.m_values;
 		}
 
@@ -296,13 +295,13 @@ public class Dict<C> extends TransactionalContainer<C> implements Map<String, C>
 	/**
 	 * Implements undo for put.
 	 */
-	private static class PutUndo implements Undo
+	private static class PutUndo<C> implements Undo
 	{
-		private final Dict m_dict;
+		private final Dict<C> m_dict;
 		private final String m_property;
-		private final Object m_oldValue;
+		private final C m_oldValue;
 
-		public PutUndo(Dict dict, String property, Object oldValue)
+		public PutUndo(Dict<C> dict, String property, C oldValue)
 		{
 			m_dict = dict;
 			m_property = property;
@@ -335,12 +334,14 @@ public class Dict<C> extends TransactionalContainer<C> implements Map<String, C>
 		return newDict(map);
 	}
 
-	public static <C> Dict<C> newDict(Map map)
+	@SuppressWarnings({"unchecked"})
+    public static <C> Dict<C> newDict(Map map)
 	{
+        ElementType<C> elementType = ElementType.getReturnType(map.values().iterator().next().getClass());
 		Dict<C> d = new Dict(null,
 		                     map.isEmpty()
 		                     ? null
-		                     : ElementType.getReturnType(map.values().iterator().next().getClass()));
+		                     : elementType);
 		d.putAll(map);
 		return d;
 	}

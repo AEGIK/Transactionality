@@ -1,4 +1,4 @@
-package transactionality;
+package com.aegik.transactionality;
 
 import java.util.Arrays;
 import java.util.ListIterator;
@@ -53,23 +53,6 @@ public class ByteArray implements Iterable<Byte>, NonPrimitive
 	{
 		m_bytes = bytes;
 		m_root = root;
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	protected <C> C getByPath(String path)
-	{
-		try
-		{
-			int nextPartIndex = path.indexOf('.');
-			if (nextPartIndex != -1) return null;
-			return (C) Byte.valueOf(get(Integer.valueOf(path)));
-		}
-		catch (IndexOutOfBoundsException e)
-		{
-			return null;
-		}
 	}
 
 	/**

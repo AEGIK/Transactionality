@@ -1,4 +1,4 @@
-package transactionality;
+package com.aegik.transactionality;
 
 import java.util.*;
 
@@ -20,8 +20,7 @@ public class Array<C> extends TransactionalContainer<C> implements List<C>, NonP
 	 * transactions for this array.
 	 * @param internalType the object type for this class.
 	 */
-
-	Array(Root root, ElementType internalType)
+    Array(Root root, ElementType<C> internalType)
 	{
 		super(root, internalType);
 
@@ -124,9 +123,9 @@ public class Array<C> extends TransactionalContainer<C> implements List<C>, NonP
 	 * @throws NullPointerException if the specified collection contains one
 	 * or more null elements.
 	 */
-	public boolean addAll(Collection<? extends C> c)
+    public boolean addAll(Collection<? extends C> c)
 	{
-		List old = m_list;
+		List<C> old = m_list;
 		clear();
 		m_list.addAll(old);
 		return m_list.addAll(c);
@@ -151,7 +150,7 @@ public class Array<C> extends TransactionalContainer<C> implements List<C>, NonP
 	 */
 	public boolean addAll(int index, Collection<? extends C> c)
 	{
-		List old = m_list;
+		List<C> old = m_list;
 		clear();
 		m_list.addAll(old);
 		return m_list.addAll(index, c);
@@ -163,7 +162,7 @@ public class Array<C> extends TransactionalContainer<C> implements List<C>, NonP
 	public void clear()
 	{
 		addUndo(new ClearUndo(this));
-		m_list = new ArrayList();
+		m_list = new ArrayList<C>();
 	}
 
 
@@ -279,7 +278,7 @@ public class Array<C> extends TransactionalContainer<C> implements List<C>, NonP
 	public C remove(final int index)
 	{
 		C removed = m_list.remove(index);
-		addUndo(new RemoveUndo(this, index, removed));
+		addUndo(new RemoveUndo<C>(this, index, removed));
 		return removed;
 	}
 
@@ -290,7 +289,8 @@ public class Array<C> extends TransactionalContainer<C> implements List<C>, NonP
 	 * @param o element to be removed from this list, if present.
 	 * @return <tt>true</tt> if the list contained the specified element.
 	 */
-	public boolean remove(Object o)
+	@SuppressWarnings({"SuspiciousMethodCalls"})
+    public boolean remove(Object o)
 	{
 		final int index = m_list.indexOf(o);
 		if (index == -1) return false;
@@ -310,7 +310,7 @@ public class Array<C> extends TransactionalContainer<C> implements List<C>, NonP
 	public boolean removeAll(Collection<?> c)
 	{
 		if (c == null) throw new NullPointerException();
-		ArrayList oldList = m_list;
+		ArrayList<C> oldList = m_list;
 		clear();
 		m_list.addAll(oldList);
 		return m_list.removeAll(c);
@@ -330,7 +330,7 @@ public class Array<C> extends TransactionalContainer<C> implements List<C>, NonP
 	public boolean retainAll(Collection<?> c)
 	{
 		if (c == null) throw new NullPointerException();
-		ArrayList oldList = m_list;
+		ArrayList<C> oldList = m_list;
 		clear();
 		m_list.addAll(oldList);
 		return m_list.retainAll(c);
@@ -395,7 +395,8 @@ public class Array<C> extends TransactionalContainer<C> implements List<C>, NonP
 	 * @throws ArrayStoreException if the runtime type of a is not a supertype
 	 * of the runtime type of every element in this list.
 	 */
-	public <T> T[] toArray(T[] a)
+	@SuppressWarnings({"SuspiciousToArrayCall"})
+    public <T> T[] toArray(T[] a)
 	{
 		return m_list.toArray(a);
 	}
@@ -445,9 +446,9 @@ public class Array<C> extends TransactionalContainer<C> implements List<C>, NonP
 		return m_list.hashCode();
 	}
 
-	public List primitive()
+    public List primitive()
 	{
-		ArrayList list = new ArrayList();
+		ArrayList<Object> list = new ArrayList<Object>();
 		for (Object entry : m_list)
 		{
 			list.add(Klass.getPrimitive(entry));
@@ -480,20 +481,20 @@ public class Array<C> extends TransactionalContainer<C> implements List<C>, NonP
 	 * Implements undo for a remove.
 	 */
 	@SuppressWarnings({"AccessingNonPublicFieldOfAnotherObject"})
-	private static class RemoveUndo implements Undo
+	private static class RemoveUndo<C> implements Undo
 	{
-		private final Array m_array;
+		private final Array<C> m_array;
 		private final int m_index;
-		private final Object m_oldValue;
+		private final C m_oldValue;
 
-		private RemoveUndo(Array array, int index, Object oldValue)
+		private RemoveUndo(Array<C> array, int index, C oldValue)
 		{
 			m_array = array;
 			m_index = index;
 			m_oldValue = oldValue;
 		}
 
-		public void undo()
+        public void undo()
 		{
 			m_array.m_list.add(m_index, m_oldValue);
 		}
@@ -526,9 +527,9 @@ public class Array<C> extends TransactionalContainer<C> implements List<C>, NonP
 	 *
 	 * @return the last element of this array or null if the array is empty.
 	 */
-	public <C> C getLast()
+    public C getLast()
 	{
-		return isEmpty() ? null : (C) get(size() - 1);
+        return isEmpty() ? null : get(size() - 1);
 	}
 
 	/**
@@ -536,9 +537,9 @@ public class Array<C> extends TransactionalContainer<C> implements List<C>, NonP
 	 *
 	 * @return the first element of this array, or null if the array is empty.
 	 */
-	public <C> C getFirst()
+	public C getFirst()
 	{
-		return isEmpty() ? null : (C) get(0);
+		return isEmpty() ? null : get(0);
 	}
 
 	/**
@@ -546,9 +547,9 @@ public class Array<C> extends TransactionalContainer<C> implements List<C>, NonP
 	 *
 	 * @return the last element of this array or null if the array is empty.
 	 */
-	public <C> C removeLast()
+	public C removeLast()
 	{
-		return isEmpty() ? null : (C) remove(size() - 1);
+		return isEmpty() ? null : remove(size() - 1);
 	}
 
 	/**
@@ -556,9 +557,9 @@ public class Array<C> extends TransactionalContainer<C> implements List<C>, NonP
 	 *
 	 * @return the first element of this array or null if the array is empty.
 	 */
-	public <C> C removeFirst()
+	public C removeFirst()
 	{
-		return isEmpty() ? null : (C) remove(0);
+		return isEmpty() ? null : remove(0);
 	}
 
 	public boolean setAdd(C c)
@@ -578,10 +579,11 @@ public class Array<C> extends TransactionalContainer<C> implements List<C>, NonP
 	
 	public static <C> Array<C> newArray(List<C> list)
 	{
+        ElementType<C> element = ElementType.getReturnType(list.get(0).getClass());
 		Array<C> a = new Array<C>(null,
 		                          list.isEmpty()
 		                          ? null
-		                          : ElementType.getReturnType(list.get(0).getClass()));
+		                          : element);
 		a.addAll(list);
 		return a;
 	}
