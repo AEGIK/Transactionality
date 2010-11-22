@@ -1,4 +1,4 @@
-package com.aegik.transactionality;
+package org.aegik.transactionality;
 
 /**
  * An undo action on a container.

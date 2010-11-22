@@ -1,4 +1,4 @@
-package com.aegik.transactionality;
+package org.aegik.transactionality;
 
 import java.util.Arrays;
 import java.util.ListIterator;

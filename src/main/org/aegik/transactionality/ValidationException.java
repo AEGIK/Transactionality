@@ -1,4 +1,4 @@
-package com.aegik.transactionality;
+package org.aegik.transactionality;
 
 /** @author Christoffer Lerno */
 public class ValidationException extends RuntimeException

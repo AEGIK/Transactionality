@@ -1,4 +1,4 @@
-package com.aegik.transactionality;
+package org.aegik.transactionality;
 
 import xmlwise.XmlParseException;
 import xmlwise.Plist;

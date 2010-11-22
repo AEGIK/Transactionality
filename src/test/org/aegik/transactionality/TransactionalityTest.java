@@ -1,4 +1,4 @@
-package com.aegik.transactionality;
+package org.aegik.transactionality;
 /**
  * @author Christoffer Lerno 
  */
@@ -115,7 +115,7 @@ public class TransactionalityTest extends TestCase
 		}
 		catch (IllegalArgumentException e)
 		{
-			assertEquals("Setter setA without getter in interface com.aegik.transactionality.TransactionalityTest$Error2", e.getMessage());
+			assertEquals("Setter setA without getter in interface org.aegik.transactionality.TransactionalityTest$Error2", e.getMessage());
 		}
 	}
 
@@ -128,7 +128,7 @@ public class TransactionalityTest extends TestCase
 		}
 		catch (IllegalArgumentException e)
 		{
-			assertEquals("Non-primitive setter setA in interface com.aegik.transactionality.TransactionalityTest$Error4", e.getMessage());
+			assertEquals("Non-primitive setter setA in interface org.aegik.transactionality.TransactionalityTest$Error4", e.getMessage());
 		}
 	}
 
@@ -159,7 +159,7 @@ public class TransactionalityTest extends TestCase
 		}
 		catch (ValidationException e)
 		{
-			assertEquals("interface com.aegik.transactionality.TransactionalityTest$Error5 has illegal methods.", e.getMessage());
+			assertEquals("interface org.aegik.transactionality.TransactionalityTest$Error5 has illegal methods.", e.getMessage());
 		}
 	}
 
@@ -178,7 +178,7 @@ public class TransactionalityTest extends TestCase
 		}
 		catch (ValidationException e)
 		{
-			assertEquals("Delete without boolean return value: deleteA in interface com.aegik.transactionality.TransactionalityTest$Error6", e.getMessage());
+			assertEquals("Delete without boolean return value: deleteA in interface org.aegik.transactionality.TransactionalityTest$Error6", e.getMessage());
 		}
 	}
 

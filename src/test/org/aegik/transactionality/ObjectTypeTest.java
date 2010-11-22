@@ -1,4 +1,4 @@
-package com.aegik.transactionality;
+package org.aegik.transactionality;
 /**
  * @author Christoffer Lerno 
  */
@@ -6,6 +6,11 @@ package com.aegik.transactionality;
 import junit.framework.*;
 
 import java.util.Date;
+
+import org.aegik.transactionality.Transactional;
+import org.aegik.transactionality.Dict;
+import org.aegik.transactionality.Array;
+import org.aegik.transactionality.ElementType;
 
 public class ObjectTypeTest extends TestCase
 {
@@ -30,11 +35,11 @@ public class ObjectTypeTest extends TestCase
 		assertEquals((Boolean) false, ElementType.getReturnType(Test.class.getMethod("boolMethod").getGenericReturnType()).newObject(null, null));
 		assertEquals("", ElementType.getReturnType(Test.class.getMethod("stringMethod").getGenericReturnType()).newObject(null, null));
 		assertEquals(new Date(0), ElementType.getReturnType(Test.class.getMethod("dateMethod").getGenericReturnType()).newObject(null, null));
-		assertEquals("class com.aegik.transactionality.ElementType$ProxyElementType",
+		assertEquals("class org.aegik.transactionality.ElementType$ProxyElementType",
 		             ElementType.getReturnType(Test.class.getMethod("testMethod").getGenericReturnType()).getClass().toString());
-		assertEquals("class com.aegik.transactionality.ElementType$DictElementType",
+		assertEquals("class org.aegik.transactionality.ElementType$DictElementType",
 		             ElementType.getReturnType(Test.class.getMethod("testDictMethod").getGenericReturnType()).getClass().toString());
-		assertEquals("class com.aegik.transactionality.ElementType$ArrayElementType",
+		assertEquals("class org.aegik.transactionality.ElementType$ArrayElementType",
 		             ElementType.getReturnType(Test.class.getMethod("intListMethod").getGenericReturnType()).getClass().toString());
 
 	}

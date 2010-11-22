@@ -1,4 +1,4 @@
-package com.aegik.transactionality;
+package org.aegik.transactionality;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;

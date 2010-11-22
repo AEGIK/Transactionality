@@ -1,4 +1,4 @@
-package com.aegik.transactionality;
+package org.aegik.transactionality;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;

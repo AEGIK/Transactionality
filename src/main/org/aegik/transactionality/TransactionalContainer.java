@@ -1,4 +1,4 @@
-package com.aegik.transactionality;
+package org.aegik.transactionality;
 
 /** @author Christoffer Lerno */
 abstract class TransactionalContainer<C> implements NonPrimitive

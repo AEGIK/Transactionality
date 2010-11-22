@@ -1,4 +1,4 @@
-package com.aegik.transactionality;
+package org.aegik.transactionality;
 /**
  * @author Christoffer Lerno 
  */
@@ -7,6 +7,9 @@ import junit.framework.TestCase;
 
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
+
+import org.aegik.transactionality.ByteArray;
+import org.aegik.transactionality.Root;
 
 public class ByteArrayTest extends TestCase
 {

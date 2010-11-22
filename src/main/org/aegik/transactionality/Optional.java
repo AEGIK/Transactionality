@@ -1,4 +1,4 @@
-package com.aegik.transactionality;
+package org.aegik.transactionality;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
