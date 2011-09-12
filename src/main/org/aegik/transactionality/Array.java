@@ -116,19 +116,19 @@ public class Array<C> extends TransactionalContainer<C> implements List<C>, NonP
 	 * this list, in the order that they are returned by the specified
 	 * collection's iterator.
 	 *
-	 * @param c collection whose elements are to be added to this list.
+	 * @param collection collection whose elements are to be added to this list.
 	 * @return <tt>true</tt> if this list changed as a result of the call.
 	 * @throws IllegalArgumentException if the class of any of the elements
 	 * in the collection is not supported.
 	 * @throws NullPointerException if the specified collection contains one
 	 * or more null elements.
 	 */
-    public boolean addAll(Collection<? extends C> c)
+    public boolean addAll(Collection<? extends C> collection)
 	{
 		List<C> old = m_list;
 		clear();
 		m_list.addAll(old);
-		return m_list.addAll(c);
+		return m_list.addAll(collection);
 	}
 
 	/**
@@ -141,19 +141,19 @@ public class Array<C> extends TransactionalContainer<C> implements List<C>, NonP
 	 *
 	 * @param index index at which to insert first element from the specified
 	 * collection.
-	 * @param c collection whose elements are to be added to this list.
+	 * @param collection collection whose elements are to be added to this list.
 	 * @return <tt>true</tt> if this list changed as a result of the call.
 	 * @throws IllegalArgumentException if the class of any of the elements
 	 * in the collection is not supported.
 	 * @throws NullPointerException if the specified collection contains one
 	 * or more null elements.
 	 */
-	public boolean addAll(int index, Collection<? extends C> c)
+	public boolean addAll(int index, Collection<? extends C> collection)
 	{
 		List<C> old = m_list;
 		clear();
 		m_list.addAll(old);
-		return m_list.addAll(index, c);
+		return m_list.addAll(index, collection);
 	}
 
 	/**
@@ -182,12 +182,12 @@ public class Array<C> extends TransactionalContainer<C> implements List<C>, NonP
 	 * Returns <tt>true</tt> if this list contains <em>all</em> the
 	 * elements in the specified collection.
 	 *
-	 * @param c the collection to test.
+	 * @param collection the collection to test.
 	 * @return true if all the elements in the collection exists in the array, false otherwise.
 	 */
-	public boolean containsAll(Collection<?> c)
+	public boolean containsAll(Collection<?> collection)
 	{
-		return m_list.containsAll(c);
+		return m_list.containsAll(collection);
 	}
 
 	/**
@@ -302,18 +302,18 @@ public class Array<C> extends TransactionalContainer<C> implements List<C>, NonP
 	 * Removes from this collection all of its elements that are contained in
 	 * the specified collection.
 	 *
-	 * @param c elements to be removed from this collection.
+	 * @param collection elements to be removed from this collection.
 	 * @return <tt>true</tt> if this collection changed as a result of the
 	 * call.
 	 * @throws NullPointerException if the specified collection is null.
 	 */
-	public boolean removeAll(Collection<?> c)
+	public boolean removeAll(Collection<?> collection)
 	{
-		if (c == null) throw new NullPointerException();
+		if (collection == null) throw new NullPointerException();
 		ArrayList<C> oldList = m_list;
 		clear();
 		m_list.addAll(oldList);
-		return m_list.removeAll(c);
+		return m_list.removeAll(collection);
 	}
 
 	/**
@@ -322,18 +322,18 @@ public class Array<C> extends TransactionalContainer<C> implements List<C>, NonP
 	 * from this collection all of its elements that are not contained in the
 	 * specified collection.
 	 *
-	 * @param c elements to be retained in this collection.
+	 * @param collection elements to be retained in this collection.
 	 * @return <tt>true</tt> if this collection changed as a result of the
 	 * call.
 	 * @throws NullPointerException if the specified collection is null.
 	 */
-	public boolean retainAll(Collection<?> c)
+	public boolean retainAll(Collection<?> collection)
 	{
-		if (c == null) throw new NullPointerException();
+		if (collection == null) throw new NullPointerException();
 		ArrayList<C> oldList = m_list;
 		clear();
 		m_list.addAll(oldList);
-		return m_list.retainAll(c);
+		return m_list.retainAll(collection);
 	}
 
     /**
@@ -562,11 +562,11 @@ public class Array<C> extends TransactionalContainer<C> implements List<C>, NonP
 		return isEmpty() ? null : remove(0);
 	}
 
-	public boolean setAdd(C c)
+	public boolean setAdd(C object)
 	{
-		if (!contains(c))
+		if (!contains(object))
 		{
-			add(c);
+			add(object);
 			return true;
 		}
 		return false;
@@ -579,11 +579,8 @@ public class Array<C> extends TransactionalContainer<C> implements List<C>, NonP
 	
 	public static <C> Array<C> newArray(List<C> list)
 	{
-        ElementType<C> element = ElementType.getReturnType(list.get(0).getClass());
-		Array<C> a = new Array<C>(null,
-		                          list.isEmpty()
-		                          ? null
-		                          : element);
+        ElementType element = list == null || list.isEmpty() ? null :  ElementType.getReturnType(list.get(0).getClass());
+		Array<C> a = new Array<C>(null, element);
 		a.addAll(list);
 		return a;
 	}
